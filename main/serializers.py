@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate
 from rest_framework import serializers
-from .models import AdvUser
+from .models import AdvUser, Tip, Product, Category, SubProduct,SuperProduct
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -55,3 +55,20 @@ class LoginSerializer(serializers.Serializer):
         return {
             'token': user.token,
         }
+
+
+class ProductDetailSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Product
+        fields=('name','descriptions','created','author','price','is_active','category','super_product')
+
+
+class TipSerializer(serializers.ModelSerializer):
+    product=ProductDetailSerializer(read_only=True,many=True)
+
+    class Meta:
+        model = Tip
+        fields = ('product_name','value_tip','author','product')
+
+

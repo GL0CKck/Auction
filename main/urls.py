@@ -1,11 +1,19 @@
-from django.urls import path
+from django.urls import path, include
 from .views import index, by_category, PpRegisterView, profile,PpLoginView,\
     PpLogoutView,RegisterUserDone,ChangeUserInfo,DeleteUser, detail,profile_pp_add,RegistrationAPIView,LoginAPIView,\
-    profile_pp_change, profile_pp_delete,user_tips, user_tips_delete
+    profile_pp_change, profile_pp_delete,user_tips, user_tips_delete, ProductViewSet, ProductDetailViewSet, ProductListViewSet, \
+    TipProductViewSet
+from rest_framework.routers import DefaultRouter
+router = DefaultRouter()
+router.register('products',ProductViewSet)
 
 app_name = 'main'
 
 urlpatterns = [
+    path('api/',include(router.urls)),
+    path('api/product_detail/',ProductListViewSet.as_view(),name='products_detail'),
+    path('api/product_detail/<int:category_pk>/<int:pk>/',ProductDetailViewSet.as_view(),name='product_detail'),
+    path('api/tip/product/<int:pk>/',TipProductViewSet.as_view(),name='products_detail'),
     path('registration/', RegistrationAPIView.as_view(), name='user_registration'),
     path('login/', LoginAPIView.as_view(), name='user_login'),
     path('accounts/register/',PpRegisterView.as_view(),name='register'),
@@ -23,6 +31,7 @@ urlpatterns = [
     path('accounts/profile/tips/delete/<int:pk>',user_tips_delete,name='user_tips_delete'),
     path('accounts/profile/change/',ChangeUserInfo.as_view(),name='change_user'),
     path('accounts/profile/delete/',DeleteUser.as_view(),name='delete_user'),
+
 
 
 

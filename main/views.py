@@ -22,7 +22,8 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializers import RegisterSerializer, LoginSerializer
+from .serializers import RegisterSerializer, LoginSerializer,ProductDetailSerializer, TipSerializer
+from rest_framework import viewsets, permissions, generics
 
 
 class RegistrationAPIView(APIView):
@@ -155,8 +156,6 @@ def detail(request,category_pk,pk):
             form=TipUserForm(request.POST)
             if form.is_valid():
                 value_tip=form.cleaned_data['value_tip']
-                print(tips.latest('value_tip'))
-                print(value_tip)
                 if str(tips.latest('value_tip')) >= str(value_tip):
                     messages.add_message(request, messages.WARNING, 'Error')
                 else:
@@ -252,3 +251,27 @@ def user_tips_delete(request,pk):
     else:
         context={'tips':tips}
         return render(request,'tip/delete_tip.html',context)
+
+
+class ProductViewSet(viewsets.ModelViewSet):
+    queryset = Product.objects.order_by('-created')
+    serializer_class = ProductDetailSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class ProductDetailViewSet(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductDetailSerializer
+    permission_classes = [AllowAny]
+
+
+class ProductListViewSet(generics.ListCreateAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductDetailSerializer
+    permission_classes = [AllowAny]
+
+
+class TipProductViewSet(generics.ListAPIView):
+    queryset = Tip.objects.all()
+    serializer_class = TipSerializer
+    permission_classes = [permissions.IsAuthenticated]
