@@ -1,0 +1,15 @@
+{% extends 'main/main.html' %}
+{% load thumbnail %}
+{% load static %}
+{% load  bootstrap4 %}
+{% block title %}Страница удаления{% endblock %}
+{% block content %}
+<h2>Удалить объявления</h2>
+<p>{{ pp.category.name}}</p>
+<p>{{ pp.name }}</p>
+
+<form method="POST">
+    {% csrf_token %}
+    <input type="submit" value="Удалить">
+</form>
+{% endblock %}

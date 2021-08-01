@@ -1,0 +1,45 @@
+{% extends 'main/main.html' %}
+{% block title %}Профиль пользователя{% endblock %}
+{% load thumbnail %}
+{% load static %}
+{% load  bootstrap4 %}
+{% block content %}
+<h2> Профиль пользователя: {{ user.username }}</h2>
+{% if user.first_name and user.last_name %}
+
+<p> Здравствуйте, {{ user.first_name }} {{ user.last_name }}</p>
+{% else %}
+<p>
+Здравствуйте!
+</p>
+{% endif %}
+<h3>Ваши объявления!</h3>
+<p><a href="{% url 'main:profile_pp_add' %}">Добавить новое объявление</a></p>
+<p><a href="{% url 'main:user_tips' %}">Мои ставки</a></p>
+
+<ul  class="list-unstyled">
+{%for pp in pps%}
+<li class="media my-5 p-3 border">
+<!--{% url 'main:profile_bb_detail' rubric_pk=rubric.pk  pk=bb.pk as url %}-->
+
+<a href="{{ url }}{{ all }}" >
+{% if pp.image %}
+<img class="mr-3 " src="{% thumbnail  pp.image 'default' %} ">
+{% else %}
+<img  class="mr-3" src="{% static 'main/empty.jpg '%}">
+{% endif %}
+</a>
+<div  class="media-body" >
+<h3><a href="{% url 'main:detail' category_pk=pp.category.pk pk=pp.pk %}">{{ pp.name }}</a></h3>
+<div>{{ pp.descriptions }}</div>
+<p class="text-right  font-weight-bold">{{ pp.price }}</p>
+<p class="text-right  font-italic" >{{ pp.created }}</p>
+  <p class="text-right mt-2"><a href="{% url 'main:profile_pp_change' pk=pp.pk %}">Исправить</a>
+
+<a href="{% url 'main:profile_pp_delete' pk=pp.pk %}">Удалить</a></p>
+  </div>
+
+</li>
+{% endfor %}
+</ul>
+{% endblock %}

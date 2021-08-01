@@ -1,0 +1,10 @@
+{% extends 'product/detail_product.html' %}
+{% block title %} {{ tip.product_name }} - {{ tip.value_tip }} {% endblock %}
+{% load static %}
+{% load  bootstrap4 %}
+{% block content %}
+<form method="POST">
+    {% csrf_token %}
+    <input type="submit" value="Удалить">
+</form>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'main/main.html' %}
+{% load thumbnail %}
+{% load static %}
+{% load  bootstrap4 %}
+{% block title %}Страница исправления{% endblock %}
+{% block content %}
+<h2>Исправление объявления</h2>
+<p>{{ pp.category.name}}</p>
+<p>{{ pp.name }}</p>
+
+
+<form method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+{% bootstrap_form form layout='horizontal' %}
+
+  {% buttons submit='Изменить' %}{% endbuttons %}
+
+</form>
+{% endblock %}

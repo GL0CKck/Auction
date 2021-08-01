@@ -1,0 +1,41 @@
+{% extends 'main/main.html' %}
+{% load thumbnail %}
+{% load static %}
+{% load  bootstrap4 %}
+{% block title %}{{ category }}{% endblock %}
+{% block content %}
+<h2 class="mb-2 " >{{category}}</h2>
+
+
+<ul  class="list-unstyled">
+{%for pp in products%}
+  {% if category.pk == pp.category.pk %}
+  {% ifchanged pp.super_product.pk %}
+  <span class="nav-link root font-weight-bold" >{{ pp.super_product.name }}</span>
+{% endifchanged %}
+
+<li class="media my-5 p-3 border">
+{%url 'main:detail' category_pk=category.pk pk=pp.pk as url %}
+
+<a href="{{ url }}{{ all }}" >
+
+{% if pp.image %}
+<img class="mr-3 " src="{% thumbnail  pp.image 'default' %} ">
+{% else %}
+<img  class="mr-3" src="{% static 'main/empty.jpg '%}">
+{% endif %}
+</a>
+<div  class="media-body" >
+<h3><a  href="{% url 'main:detail' category_pk=category.pk pk=pp.pk %}" >
+{{pp.name }}</a></h3>
+<div>{{ pp.descriptions }} </div>
+<p class="text-right  font-weight-bold">{{ pp.price }} $. </p>
+<p class="text-right  font-italic" > {{ pp.created }}</p>
+  </div>
+</li>
+{% endif %}
+{% endfor %}
+</ul>
+
+
+{% endblock %}

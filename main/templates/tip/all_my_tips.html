@@ -1,0 +1,39 @@
+{% extends 'main/main.html' %}
+{% load thumbnail %}
+{% block title %} Мои ставки {% endblock %}
+{% load static %}
+{% load  bootstrap4 %}
+<h2> Профиль пользователя: {{ user.username }}</h2>
+{% if user.first_name and user.last_name %}
+
+<p> Здравствуйте, {{ user.first_name }} {{ user.last_name }}</p>
+{% else %}
+<p>
+Здравствуйте!
+</p>
+{% endif %}
+<h3>Ваши объявления!</h3>
+{% block content %}
+<ul  class="list-unstyled">
+    {%for tip in tips%}
+<li class="media my-5 p-3 border">
+<a href="{{ url }}{{ all }}" >
+{% if tip.product_name.image %}
+<img class="mr-3 " src="{% thumbnail  tip.product_name.image 'default' %} ">
+{% else %}
+<img  class="mr-3" src="{% static 'main/empty.jpg '%}">
+{% endif %}
+</a>
+<div  class="media-body" >
+<h3>{{tip.product_name }}</h3>
+
+<div>{{ tip.author }} </div>
+<p class="text-right  font-weight-bold">Ваша ставка - {{ tip.value_tip }} $. </p>
+<p class="text-right  font-italic" > {{ tip.time_tip }}</p>
+    <p class="text-right  font-italic" ><a href="{% url 'main:user_tips_delete' pk=tip.pk %}">Удалить</a></p>
+  </div>
+</li>
+
+{% endfor %}
+</ul>
+{% endblock %}

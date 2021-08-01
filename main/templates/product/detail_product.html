@@ -1,0 +1,52 @@
+{% extends 'main/main.html' %}
+{% block title %} {{ pp.name }} - {{ pp.category.name }} {% endblock %}
+{% load static %}
+{% load  bootstrap4 %}
+{% block content %}
+<div class="container-fluid  mt-3">
+<div class="row">
+{% if pp.image %}
+<div  class="col-md-auto"><img src="{{ pp.image.url }}"
+class="main-image"></div>
+{% endif %}
+<div class="col">
+<h2>{{ pp.name }} </h2>
+<p>{{ pp.descriptions }}</p>
+<p class=" font-weight-bold">{{pp.price}} $.</p>
+
+<p  class="text-right font-italic">Дoбaвлeнo {{ pp.created }} </p>
+
+</div>
+</div>
+</div>
+
+{% if ais %}
+<div  class="d-flex  justify-content-between  flex-wrap  mt-5 " >
+{% for ai in ais %}
+<div>
+<img  class="additional-image "  src="{{ ai.image.url }}">
+</div>
+{% endfor %}
+</div>
+{% endif %}
+<p><a  href="{% url 'main:by_category' pk=pp.category.pk %}{{ all }}" >Назад</a></p>
+<h4 class="mt-5">Новая ставка</h4>
+<form method="POST">
+    {% csrf_token %}
+    {% bootstrap_form form layout='horizontal' %}
+    {% buttons submit='Добавить'%}
+    {% endbuttons %}
+</form>
+{% if tips %}
+<div class="mt-5" >
+    {% for tip in tips %}
+    <div class="my-2 p-2 border">
+        <h5>{{ tip.author }}</h5>
+        <p>{{ tip.value_tip }} $</p>
+        <p class="text-right font-italic">{{ tip.time_tip }}</p>
+    </div>
+
+    {% endfor %}
+</div>
+{% endif %}
+{% endblock %}
