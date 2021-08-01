@@ -24,6 +24,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import RegisterSerializer, LoginSerializer
 
+
 class RegistrationAPIView(APIView):
     """
     Registers a new user.
@@ -148,19 +149,28 @@ def detail(request,category_pk,pk):
     pp=get_object_or_404(Product,pk=pk)
     ais=pp.additionalimage_set.all()
     tips=Tip.objects.filter(product_name=pk)
+    # print(Product.objects.latest('tip'))
     if request.user.is_authenticated:
         if request.method == 'POST':
             form=TipUserForm(request.POST)
             if form.is_valid():
-                form.save()
-                messages.add_message(request,messages.SUCCESS,'Ставка успешно сделана')
+                value_tip=form.cleaned_data['value_tip']
+                print(tips.latest('value_tip'))
+                print(value_tip)
+                if str(tips.latest('value_tip')) >= str(value_tip):
+                    messages.add_message(request, messages.WARNING, 'Error')
+                else:
+                    form.save()
+                    messages.add_message(request,messages.SUCCESS,'Ставка успешно сделана')
 
         else:
             form=TipUserForm(initial={'author':request.user.pk,'product_name':pp.pk})
+
         context={'pp':pp,'ais':ais,'tips':tips,'form':form}
         return render(request,'product/detail_product.html',context)
     else:
         messages.add_message(request,messages.ERROR,'Вы должны авторизироваться!')
+
 
 @login_required()
 def profile_pp_add(request):

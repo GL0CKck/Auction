@@ -45,6 +45,7 @@ class ProductAdmin(admin.ModelAdmin):
 
 class AddTip(admin.ModelAdmin):
     fields = ('product_name','value_tip','author','order')
+    list_display = ('product_name','value_tip','author','order')
 
 
 admin.site.register(SuperProduct,SuperProductAdmin)

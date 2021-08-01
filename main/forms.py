@@ -1,3 +1,6 @@
+from django.contrib import messages
+from django.shortcuts import render
+from django.core.exceptions import ValidationError
 from django import forms
 from .models import Product, SubCategory, SuperCategory,SuperProduct,SubProduct, AdvUser, AdditionalImage, Tip
 from django.contrib.auth import password_validation
@@ -112,6 +115,21 @@ class ChangeUserInfoForm(forms.ModelForm):
 
 
 class TipUserForm(forms.ModelForm):
+    # value_tip = forms.IntegerField()
+    # # latest_tip = Tip.objects.latest('value_tip')
+    # def clean(self):
+    #     super().clean()
+    #     value_tip=self.cleaned_data['value_tip']
+    #     if value_tip:
+    #         value_tip
+    #         return value_tip
+    # def clean_tip(self):
+    #     latest_tip = Tip.objects.latest('value_tip')
+    #     print(latest_tip)
+    #     value_tip=self.cleaned_data['value_tip']
+    #     print(value_tip)
+    #     return value_tip
+
     class Meta:
         model = Tip
         fields = ('product_name','value_tip','author')

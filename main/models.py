@@ -215,7 +215,7 @@ class Tip(models.Model):
     order = models.SmallIntegerField(default=0,db_index=True,verbose_name='Сортировка')
 
     def __str__(self):
-        return '%s - %s' % (self.product_name, self.value_tip)
+        return str(self.value_tip)
 
     class Meta:
         verbose_name = 'Ставка'
