@@ -57,6 +57,13 @@ class LoginSerializer(serializers.Serializer):
         }
 
 
+class UserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = AdvUser
+        fields = ('username','email','is_activated','seller','buyer')
+
+
 class ProductDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -66,6 +73,7 @@ class ProductDetailSerializer(serializers.ModelSerializer):
 
 class TipSerializer(serializers.ModelSerializer):
     product_name = ProductDetailSerializer()
+    author = UserSerializer()
 
     class Meta:
         model = Tip

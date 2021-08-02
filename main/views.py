@@ -150,13 +150,18 @@ def detail(request,category_pk,pk):
     pp=get_object_or_404(Product,pk=pk)
     ais=pp.additionalimage_set.all()
     tips=Tip.objects.filter(product_name=pk)
-    # print(Product.objects.latest('tip'))
+    last_tip=Tip.objects.filter(product_name=pk).latest('value_tip')
+    # print(str(last_tip))
+    # print(request.user.pk)
+    # print(pp.author.pk)
     if request.user.is_authenticated:
         if request.method == 'POST':
             form=TipUserForm(request.POST)
             if form.is_valid():
                 value_tip=form.cleaned_data['value_tip']
-                if str(tips.latest('value_tip')) >= str(value_tip):
+                # print(type(value_tip))
+                # print(dir(last_tip.value_tip))
+                if last_tip.value_tip >= value_tip:
                     messages.add_message(request, messages.WARNING, 'Error')
                 else:
                     form.save()
@@ -259,19 +264,26 @@ class ProductViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
 
-class ProductDetailViewSet(generics.RetrieveUpdateDestroyAPIView):
+class ProductDetailApi(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductDetailSerializer
     permission_classes = [AllowAny]
 
 
-class ProductListViewSet(generics.ListCreateAPIView):
+class ProductListApi(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductDetailSerializer
     permission_classes = [AllowAny]
 
 
-class TipProductViewSet(generics.ListAPIView):
+class TipProductApi(generics.ListAPIView):
     queryset = Tip.objects.all()
     serializer_class = TipSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+
+class TipProductViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Tip.objects.order_by('-time_tip')
+    serializer_class = TipSerializer
+    permission_classes = [permissions.IsAuthenticated]
+

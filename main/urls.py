@@ -1,19 +1,20 @@
 from django.urls import path, include
 from .views import index, by_category, PpRegisterView, profile,PpLoginView,\
     PpLogoutView,RegisterUserDone,ChangeUserInfo,DeleteUser, detail,profile_pp_add,RegistrationAPIView,LoginAPIView,\
-    profile_pp_change, profile_pp_delete,user_tips, user_tips_delete, ProductViewSet, ProductDetailViewSet, ProductListViewSet, \
-    TipProductViewSet
+    profile_pp_change, profile_pp_delete,user_tips, user_tips_delete, ProductViewSet, ProductDetailApi, ProductListApi, \
+    TipProductApi, TipProductViewSet
 from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
 router.register('products',ProductViewSet)
 
+router.register('tip_product',TipProductViewSet)
 app_name = 'main'
 
 urlpatterns = [
     path('api/',include(router.urls)),
-    path('api/product_detail/',ProductListViewSet.as_view(),name='products_detail'),
-    path('api/product_detail/<int:category_pk>/<int:pk>/',ProductDetailViewSet.as_view(),name='product_detail'),
-    path('api/tip/product/<int:pk>/',TipProductViewSet.as_view(),name='products_detail'),
+    path('api/product_detail/',ProductListApi.as_view(),name='products_detail'),
+    path('api/product_detail/<int:category_pk>/<int:pk>/',ProductDetailApi.as_view(),name='product_detail'),
+    path('api/tip/product/<str:name>/',TipProductApi.as_view(),name='products_detail'),
     path('registration/', RegistrationAPIView.as_view(), name='user_registration'),
     path('login/', LoginAPIView.as_view(), name='user_login'),
     path('accounts/register/',PpRegisterView.as_view(),name='register'),
