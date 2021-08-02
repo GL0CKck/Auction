@@ -208,8 +208,7 @@ class SubProduct(Product):
 
 
 class Tip(models.Model):
-    product_name = models.ForeignKey(Product,on_delete=models.CASCADE,verbose_name='Название продукта',
-                                     related_name='product')
+    product_name = models.ForeignKey(Product,on_delete=models.CASCADE,verbose_name='Название продукта')
     value_tip = models.IntegerField(verbose_name='Ваша ставка')
     author = models.ForeignKey(AdvUser, on_delete=models.CASCADE, verbose_name='Покупатель')
     time_tip = models.DateTimeField(auto_now_add=True,db_index=True,verbose_name='Время ставки')

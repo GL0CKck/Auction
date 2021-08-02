@@ -61,14 +61,15 @@ class ProductDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields=('name','descriptions','created','author','price','is_active','category','super_product')
+        fields = ('name','descriptions','created','author','price','is_active','category','super_product')
 
 
 class TipSerializer(serializers.ModelSerializer):
-    product=ProductDetailSerializer(read_only=True,many=True)
+    product_name = ProductDetailSerializer()
 
     class Meta:
         model = Tip
-        fields = ('product_name','value_tip','author','product')
+        fields = ('product_name','value_tip','author')
+
 
 
