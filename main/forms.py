@@ -51,7 +51,8 @@ class ProductForm(forms.ModelForm):
                                            empty_label=None,
                                            required=True,
                                            label='Продукт')
-    deadline = forms.DateTimeField(required=True)
+    deadline = forms.DateTimeField(required=True,label='Завершается прием ставок на продукт',
+                                   help_text='Дата должна быть вида "00.00.2021 00:00"')
 
     class Meta:
         model = Product

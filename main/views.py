@@ -215,7 +215,7 @@ def profile_pp_add(request):
                     return redirect('main:profile')
         else:
             form = ProductForm(initial={'author':request.user.pk})
-            formset = AIFormset()
+        formset = AIFormset()
         context={'form':form,'formset':formset}
         return render(request,'product/create_product.html',context)
 
