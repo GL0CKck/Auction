@@ -151,8 +151,10 @@ def detail(request,category_pk,pk):
     ais=pp.additionalimage_set.all()
     tips=Tip.objects.filter(product_name=pk)
 
-    last_tip=Tip.objects.filter(product_name=pk)
-
+    try:
+        last_tip=Tip.objects.filter(product_name=pk).latest('value_tip')
+    except:
+        last_tip = None
 
     # print(str(last_tip))
     # print(request.user.pk)
@@ -163,15 +165,17 @@ def detail(request,category_pk,pk):
             if form.is_valid():
                 value_tip=form.cleaned_data['value_tip']
                 # print(type(value_tip))
-                print(dir(last_tip.latest('value_tip')))
-                if last_tip.latest('value_tip').value_tip >= value_tip\
-                        or last_tip.latest('value_tip').author.pk == request.user.pk:
-                    messages.add_message(request, messages.WARNING, 'Ваша ставка ниже чем предыдущая! или '
-                                                                    'Ваша ставка является последней!')
-                else:
+                # print(dir(last_tip.latest('value_tip')))
+                if last_tip == None:
                     form.save()
-                    messages.add_message(request,messages.SUCCESS,'Ставка успешно сделана')
-
+                else:
+                    if last_tip.value_tip >= value_tip\
+                            or last_tip.author.pk == request.user.pk:
+                        messages.add_message(request, messages.WARNING, 'Ваша ставка ниже чем предыдущая! или '
+                                                                        'Ваша ставка является последней!')
+                    else:
+                        form.save()
+                        messages.add_message(request,messages.SUCCESS,'Ставка успешно сделана')
         else:
             form=TipUserForm(initial={'author':request.user.pk,'product_name':pp.pk})
 

@@ -38,8 +38,8 @@ class AdditionalImageInline(admin.TabularInline):
 
 
 class ProductAdmin(admin.ModelAdmin):
-    fields = ('name','descriptions','price','is_active',('author','category'),'image')
-    list_display = ('name','created','price','is_active')
+    fields = ('name','descriptions','price','is_active',('author','category'),'image','deadline')
+    list_display = ('name','created','price','is_active','deadline')
     inlines = (AdditionalImageInline,TipInline)
 
 

@@ -51,6 +51,7 @@ class ProductForm(forms.ModelForm):
                                            empty_label=None,
                                            required=True,
                                            label='Продукт')
+    deadline = forms.DateTimeField(required=True)
 
     class Meta:
         model = Product

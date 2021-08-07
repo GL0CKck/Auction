@@ -147,6 +147,7 @@ class Product(models.Model):
     category = models.ForeignKey(SubCategory,on_delete=models.PROTECT, verbose_name='Категория')
     super_product = models.ForeignKey('SuperProduct',on_delete=models.PROTECT,verbose_name='Продукт',
                                       null=True,blank=True)
+    deadline = models.DateTimeField(verbose_name='Завершается прием ставок на продукт')
 
     def delete(self,*args,**kwargs):
         for ai in self.additionalimage_set.all():
