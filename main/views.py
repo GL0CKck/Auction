@@ -163,9 +163,11 @@ def detail(request,category_pk,pk):
             if form.is_valid():
                 value_tip=form.cleaned_data['value_tip']
                 # print(type(value_tip))
-                # print(dir(last_tip.value_tip))
-                if last_tip.latest('value_tip').value_tip >= value_tip:
-                    messages.add_message(request, messages.WARNING, 'Ваша ставка ниже чем предыдущая!')
+                print(dir(last_tip.latest('value_tip')))
+                if last_tip.latest('value_tip').value_tip >= value_tip\
+                        or last_tip.latest('value_tip').author.pk == request.user.pk:
+                    messages.add_message(request, messages.WARNING, 'Ваша ставка ниже чем предыдущая! или '
+                                                                    'Ваша ставка является последней!')
                 else:
                     form.save()
                     messages.add_message(request,messages.SUCCESS,'Ставка успешно сделана')
