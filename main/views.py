@@ -150,19 +150,22 @@ def detail(request,category_pk,pk):
     pp=get_object_or_404(Product,pk=pk)
     ais=pp.additionalimage_set.all()
     tips=Tip.objects.filter(product_name=pk)
-    last_tip=Tip.objects.filter(product_name=pk).latest('value_tip')
+
+    last_tip=Tip.objects.filter(product_name=pk)
+
+
     # print(str(last_tip))
     # print(request.user.pk)
     # print(pp.author.pk)
     if request.user.is_authenticated:
-        if request.method == 'POST':
-            form=TipUserForm(request.POST)
+        if request.method == 'POST' and request.user.pk != pp.author.pk:
+            form = TipUserForm(request.POST)
             if form.is_valid():
                 value_tip=form.cleaned_data['value_tip']
                 # print(type(value_tip))
                 # print(dir(last_tip.value_tip))
-                if last_tip.value_tip >= value_tip:
-                    messages.add_message(request, messages.WARNING, 'Error')
+                if last_tip.latest('value_tip').value_tip >= value_tip:
+                    messages.add_message(request, messages.WARNING, 'Ваша ставка ниже чем предыдущая!')
                 else:
                     form.save()
                     messages.add_message(request,messages.SUCCESS,'Ставка успешно сделана')
@@ -249,6 +252,7 @@ def user_tips(request):
 @login_required()
 def user_tips_delete(request,pk):
     tips=get_object_or_404(Tip,pk=pk)
+
     if request.method == 'POST':
         tips.delete()
         messages.add_message(request,messages.SUCCESS,'Ставка удаленна')
