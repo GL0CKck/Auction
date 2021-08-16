@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'bootstrap4',
     'easy_thumbnails',
     'django_cleanup',
-    'rest_framework'
+    'rest_framework',
+    'ipdb',
 
 ]
 

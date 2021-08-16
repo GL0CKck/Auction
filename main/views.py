@@ -1,4 +1,6 @@
 import datetime
+
+import ipdb
 from django.utils import timezone
 import pytz
 from django.shortcuts import render
@@ -27,6 +29,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import RegisterSerializer, LoginSerializer,ProductDetailSerializer, TipSerializer
 from rest_framework import viewsets, permissions, generics
+from ipdb import *
 
 
 class RegistrationAPIView(APIView):
@@ -158,11 +161,9 @@ def detail(request,category_pk,pk):
         last_tip=Tip.objects.filter(product_name=pk).latest('value_tip')
     except:
         last_tip = None
-
     # print(str(last_tip))
     # print(request.user.pk)
     # print(pp.author.pk)
-    timezone = pp.deadline
     # print(dir(pp.deadline))
     # print(pp.deadline)
     # print(pp.deadline.tzinfo)
@@ -191,7 +192,8 @@ def detail(request,category_pk,pk):
                 messages.add_message(request,messages.WARNING, 'Вы являетесь владельцем этого аукциона!')
 
             else:
-                messages.add_message(request,messages.WARNING,'Продукт не ативен')
+
+                messages.add_message(request,messages.WARNING,f'Продукт не ативен!')
         else:
             form=TipUserForm(initial={'author':request.user.pk,'product_name':pp.pk})
 
@@ -266,8 +268,10 @@ def profile_pp_delete(request,pk):
 
 @login_required()
 def user_tips(request):
+    ''' Logic '''
+    today = datetime.datetime.now().replace(tzinfo=pytz.utc)
     tips=Tip.objects.filter(author=request.user.pk)
-    context={'tips':tips}
+    context={'tips':tips,'today':today}
     return render(request,'tip/all_my_tips.html',context)
 
 

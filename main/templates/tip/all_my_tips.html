@@ -16,6 +16,8 @@
 {% block content %}
 <ul  class="list-unstyled">
     {%for tip in tips%}
+
+
 <li class="media my-5 p-3 border">
 <a href="{{ url }}{{ all }}" >
 {% if tip.product_name.image %}
@@ -26,12 +28,15 @@
 </a>
 <div  class="media-body" >
 <h3>{{tip.product_name }}</h3>
-
-<div>{{ tip.author }} </div>
 <p class="text-right  font-weight-bold">Ваша ставка - {{ tip.value_tip }} $. </p>
 <p class="text-right  font-italic" > {{ tip.time_tip }}</p>
+    <p class="text-right  font-italic" > {{ tip.product_name.deadline }}</p>
     <p class="text-right  font-italic" ><a href="{% url 'main:user_tips_delete' pk=tip.pk %}">Удалить</a></p>
-  </div>
+  {% if tip.product_name.deadline < today %}
+    <p class="text-right  font-weight-bold">Ваша ставка - {{ tip.value_tip }} $ победила на аукционе! </p>
+    {% endif %}
+</div>
+
 </li>
 
 {% endfor %}
