@@ -15,7 +15,7 @@ class="main-image"></div>
 <p class=" font-weight-bold">{{pp.price}} $.</p>
 
 <p  class="text-right font-italic">Дoбaвлeнo {{ pp.created }} </p>
-
+<p class="text-right font-italic">Завершение {{ pp.deadline }}</p>
 </div>
 </div>
 </div>
@@ -44,6 +44,7 @@ class="main-image"></div>
         <h5>{{ tip.author }}</h5>
         <p>{{ tip.value_tip }} $</p>
         <p class="text-right font-italic">{{ tip.time_tip }}</p>
+
     </div>
 
     {% endfor %}

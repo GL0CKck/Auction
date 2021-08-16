@@ -1,3 +1,6 @@
+import datetime
+from django.utils import timezone
+import pytz
 from django.shortcuts import render
 from .models import Product, AdvUser, SubCategory, SubProduct, SuperProduct,Tip
 from django.views.generic.edit import UpdateView,CreateView, DeleteView
@@ -159,10 +162,18 @@ def detail(request,category_pk,pk):
     # print(str(last_tip))
     # print(request.user.pk)
     # print(pp.author.pk)
+    timezone = pp.deadline
+    # print(dir(pp.deadline))
+    # print(pp.deadline)
+    # print(pp.deadline.tzinfo)
+
+    today=datetime.datetime.now().replace(tzinfo=pytz.utc)
+    # print(today.tzinfo)
+    # print(today)
     if request.user.is_authenticated:
-        if request.method == 'POST' and request.user.pk != pp.author.pk:
+        if request.method == 'POST':
             form = TipUserForm(request.POST)
-            if form.is_valid():
+            if form.is_valid() and request.user.pk != pp.author.pk and today < pp.deadline:
                 value_tip=form.cleaned_data['value_tip']
                 # print(type(value_tip))
                 # print(dir(last_tip.latest('value_tip')))
@@ -176,6 +187,11 @@ def detail(request,category_pk,pk):
                     else:
                         form.save()
                         messages.add_message(request,messages.SUCCESS,'Ставка успешно сделана')
+            elif request.user.pk == pp.author.pk:
+                messages.add_message(request,messages.WARNING, 'Вы являетесь владельцем этого аукциона!')
+
+            else:
+                messages.add_message(request,messages.WARNING,'Продукт не ативен')
         else:
             form=TipUserForm(initial={'author':request.user.pk,'product_name':pp.pk})
 
