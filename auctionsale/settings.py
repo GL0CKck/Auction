@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django_cleanup',
     'rest_framework',
     'ipdb',
+    'cart',
 
 ]
 
