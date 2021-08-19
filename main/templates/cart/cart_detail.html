@@ -22,23 +22,23 @@
     </thead>
     <tbody>
       {% for item in cart %}
-        {% with bb=item.bb %}
+        {% with pp=item.pp %}
           <tr>
             <td>
-              <a href="{{ bb.get_absolute_url }}">
-                <img src="{% if bb.image %}{{ bb.image.url }}{% else %}{% static 'main/empty.jpg' %}{% endif %}">
+              <a href="{{ pp.get_absolute_url }}">
+                <img src="{% if pp.image %}{{ bb.image.url }}{% else %}{% static 'main/empty.jpg' %}{% endif %}">
               </a>
             </td>
-            <td>{{ bb.title }}</td>
+            <td>{{ pp.title }}</td>
             <td>
-              <form action="{% url 'cart:cart_add' bb.pk %}" method="post">
+              <form action="{% url 'cart:cart_add' pp.pk %}" method="post">
                 {{ item.update_quantity_form.quantity }}
                 {{ item.update_quantity_form.update }}
                 <input type="submit" value="Обновить">
                 {% csrf_token %}
               </form>
             </td>
-            <td><a href="{% url 'cart:cart_remove' bb.pk %}">Удалить</a></td>
+            <td><a href="{% url 'cart:cart_remove' pp.pk %}">Удалить</a></td>
             <td>
               {{ item.quantity }}
             </td>
@@ -56,6 +56,6 @@
   </table>
   <p class="text-right">
     <a href="{% url 'main:index' %}" class="button light">В магазин</a>
-    <a href="#" class="button">Оформить заказ</a>
+    <a href="#" class="button">Оплатить</a>
   </p>
 {% endblock %}
