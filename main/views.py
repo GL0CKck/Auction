@@ -29,7 +29,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import RegisterSerializer, LoginSerializer,ProductDetailSerializer, TipSerializer
 from rest_framework import viewsets, permissions, generics
-from ipdb import *
+from cart.forms import CartAddForm
 
 
 class RegistrationAPIView(APIView):
@@ -85,7 +85,8 @@ def index(request):
 def by_category(request,pk):
     category = get_object_or_404(SubCategory,pk=pk)
     pps = Product.objects.filter(is_active=True,category=pk)
-    context={'category':category,'pps':pps}
+    cart_product_form = CartAddForm()
+    context={'category':category,'pps':pps,'cart_product_form':cart_product_form}
     return render(request,'category_product/by_category.html',context)
 
 

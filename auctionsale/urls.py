@@ -19,9 +19,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 
-
 urlpatterns = [
-    path('', include('main.urls',namespace='main')),
+    path('', include('main.urls', namespace='main')),
+    path('cart/', include('cart.urls', namespace='cart')),
     path('admin/', admin.site.urls),
 
 

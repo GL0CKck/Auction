@@ -33,6 +33,11 @@
 <p class="text-right  font-italic" > {{ pp.created }}</p>
   </div>
 </li>
+  <form action="{% url 'cart:cart_add' pp.pk %}" method="post">
+    {{ cart_product_form }}
+    {% csrf_token %}
+    <input type="submit" value="Добавить в корзину">
+</form>
 {% endif %}
 {% endfor %}
 </ul>
