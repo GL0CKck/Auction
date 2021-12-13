@@ -32,8 +32,8 @@
 <p class="text-right  font-italic" > {{ tip.time_tip }}</p>
     <p class="text-right  font-italic" > {{ tip.product_name.deadline }}</p>
     <p class="text-right  font-italic" ><a href="{% url 'main:user_tips_delete' pk=tip.pk %}">Удалить</a></p>
-  {% if tip.product_name.deadline < today %}
-    <p class="text-right  font-weight-bold">Ваша ставка - {{ tip.value_tip }} $ победила на аукционе! </p>
+  {% if tip.product_name.deadline < today  %}
+    <p class="text-right  font-weight-bold">Ваша ставка - {{ tip.first  }} $ победила на аукционе! </p>
     {% endif %}
 </div>
 

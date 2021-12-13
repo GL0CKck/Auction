@@ -11,7 +11,10 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
 from pathlib import Path
+import environ
 
+env = environ.Env()
+environ.Env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,7 +23,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'ei6mokyajaw*o$dxzjot&l-b!fcn58(dyp@)9tpw0wue63%adm'
+SECRET_KEY = env('SECRET_KEY')
+# SECRET_KEY = 'ei6mokyajaw*o$dxzjot&l-b!fcn58(dyp@)9tpw0wue63%adm'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -96,13 +100,23 @@ REST_FRAMEWORK = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'auctionsale',
-        'USER': 'Misha_Molokov',
-        'PASSWORD': '77776545',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'NAME': env('POSTGRE_DB'),
+        'USER': env('POSTGRE_USER'),
+        'PASSWORD': env('POSTGRE_PASSWORD'),
+        'HOST': env('POSTGRE_HOST'),
+        'PORT': env('POSTGRE_PORT'),
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'auctionsale',
+#         'USER': 'Misha_Molokov',
+#         'PASSWORD': '77776545',
+#         'HOST': '127.0.0.1',
+#         'PORT': '5432',
+#     }
+# }
 
 
 # Password validation

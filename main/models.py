@@ -1,4 +1,4 @@
-from django.contrib.auth.models import AbstractUser, PermissionsMixin,BaseUserManager
+from django.contrib.auth.models import AbstractUser, PermissionsMixin, BaseUserManager
 from django.db import models
 from .utilities import get_timestamp_path
 from datetime import timedelta,datetime
@@ -7,7 +7,7 @@ from django.conf import settings
 
 
 class UserManager(BaseUserManager):
-    def _create_user(self,username,email,password=None,**extra_fields):
+    def _create_user(self, username, email, password=None, **extra_fields):
         if not username:
             raise ValueError('Имя пользователя должно быть указанно')
         if not email:
@@ -46,16 +46,16 @@ class UserManager(BaseUserManager):
 
 
 class AdvUser(AbstractUser):
-    username = models.CharField(db_index=True,max_length=55,unique=True,verbose_name='Ник-нейм')
-    email = models.EmailField(unique=True,db_index=True)
+    username = models.CharField(db_index=True, max_length=55,unique=True, verbose_name='Ник-нейм')
+    email = models.EmailField(unique=True, db_index=True)
     is_staff = models.BooleanField(default=False)
-    is_activated = models.BooleanField(default=True,db_index=True,verbose_name='Прошел активацию?')
-    seller = models.BooleanField(default=True,verbose_name='Продавец')
-    buyer = models.BooleanField(default=False,verbose_name='Покупатель')
+    is_activated = models.BooleanField(default=True, db_index=True, verbose_name='Прошел активацию?')
+    seller = models.BooleanField(default=True, verbose_name='Продавец')
+    buyer = models.BooleanField(default=False, verbose_name='Покупатель')
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ('email',)
-    object=UserManager()
+    object = UserManager()
 
     def __str__(self):
         return self.username
@@ -90,7 +90,7 @@ class AdvUser(AbstractUser):
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=255,db_index=True,unique=True,verbose_name='Название')
+    name = models.CharField(max_length=255,db_index=True, unique=True, verbose_name='Название')
     order = models.SmallIntegerField(default=0,db_index=True,verbose_name='Сортировка')
     super_category = models.ForeignKey('SuperCategory', on_delete=models.PROTECT, null=True, blank=True,
                                        verbose_name='Надрубрика')
@@ -109,7 +109,7 @@ class SuperCategory(Category):
 
     class Meta:
         proxy = True
-        ordering = ('order','name')
+        ordering = ('order', 'name')
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
 

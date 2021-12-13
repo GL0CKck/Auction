@@ -4,8 +4,8 @@ from .models import AdvUser, Tip, Product, Category, SubProduct,SuperProduct
 
 
 class RegisterSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(max_length=16,min_length=8,write_only=True)
-    token = serializers.CharField(max_length=255,read_only=True)
+    password = serializers.CharField(max_length=16, min_length=8,write_only=True)
+    token = serializers.CharField(max_length=255, read_only=True)
 
     class Meta:
         model = AdvUser
