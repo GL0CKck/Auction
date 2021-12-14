@@ -1,5 +1,3 @@
-/venv
-auctionsale/.env
 # Django #
 *.log
 *.pot
