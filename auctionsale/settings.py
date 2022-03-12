@@ -13,6 +13,7 @@ import os
 from pathlib import Path
 import environ
 
+
 env = environ.Env()
 environ.Env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -59,6 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'main.middlewares.LastRequestMiddleware',
 
 ]
 
@@ -107,17 +109,6 @@ DATABASES = {
         'PORT': env('POSTGRE_PORT'),
     }
 }
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'auctionsale',
-#         'USER': 'Misha_Molokov',
-#         'PASSWORD': '77776545',
-#         'HOST': '127.0.0.1',
-#         'PORT': '5432',
-#     }
-# }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -143,7 +134,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Kiev'
 
 USE_I18N = True
 
@@ -153,13 +144,13 @@ USE_TZ = True
 
 THUMBNAIL_ALIASES = {
     '': {
-        'default':{
-            'size':(200,200),
-            'crop':'scale',
+        'default': {
+            'size': (200, 200),
+            'crop': 'scale',
         },
     },
 }
-THUMBNAIL_BASEDIR='thumbnails'
+THUMBNAIL_BASEDIR = 'thumbnails'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 AUTH_USER_MODEL = 'main.AdvUser'

@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.shortcuts import render
 from django.core.exceptions import ValidationError
 from django import forms
-from .models import Product, SubCategory, SuperCategory,SuperProduct,SubProduct, AdvUser, AdditionalImage, Tip
+from .models import Product, SubCategory, SuperCategory, SuperProduct, SubProduct, AdvUser, AdditionalImage, Tip
 from django.contrib.auth import password_validation
 from django.core.exceptions import ValidationError
 from django.forms import inlineformset_factory
@@ -12,7 +12,7 @@ from datetime import timedelta
 from django.conf import settings
 
 
-AIFormset = inlineformset_factory(Product,AdditionalImage,fields='__all__')
+AIFormset = inlineformset_factory(Product, AdditionalImage, fields='__all__')
 
 
 class SubProductForm(forms.ModelForm):
@@ -51,7 +51,7 @@ class ProductForm(forms.ModelForm):
                                            empty_label=None,
                                            required=True,
                                            label='Продукт')
-    deadline = forms.DateTimeField(required=True,label='Завершается прием ставок на продукт',
+    deadline = forms.DateTimeField(required=True, label='Завершается прием ставок на продукт',
                                    help_text='Дата должна быть вида "00.00.2021 00:00"')
 
     class Meta:
@@ -61,10 +61,11 @@ class ProductForm(forms.ModelForm):
 
 
 class RegisterUserForm(forms.ModelForm):
-    email = forms.EmailField(required=True,label='Адресс Электронной Почты')
-    password1 = forms.CharField(label='Password',widget=forms.PasswordInput,
+    email = forms.EmailField(required=True, label='Адресс Электронной Почты')
+    password1 = forms.CharField(label='Password', widget=forms.PasswordInput,
                                 help_text=password_validation.password_validators_help_text_html())
-    password2 = forms.CharField(label='Повторите пароль',widget=forms.PasswordInput,help_text='Повторите ваш пароль!!!')
+    password2 = forms.CharField(label='Повторите пароль', widget=forms.PasswordInput,
+                                help_text='Повторите ваш пароль!!!')
 
     @property
     def token(self):
@@ -73,8 +74,8 @@ class RegisterUserForm(forms.ModelForm):
     def _generation_token_jwt(self):
         dt = datetime.now() + timedelta(days=60)
         token = jwt.encode({
-            'id':self.pk,
-            'exp':int(dt.strftime('%S'))
+            'id': self.pk,
+            'exp': int(dt.strftime('%S'))
         }, settings.SECRET_KEY, algorithm='HS256')
 
         return token
@@ -90,7 +91,7 @@ class RegisterUserForm(forms.ModelForm):
         password1 = self.cleaned_data['password1']
         password2 = self.cleaned_data['password2']
         if password1 and password2 and password1 != password2:
-            errors = {'password1':ValidationError('Пароли не совпадают',code='password_mismatch')}
+            errors = {'password1': ValidationError('Пароли не совпадают', code='password_mismatch')}
             raise ValidationError(errors)
 
     def save(self, commit=True):
@@ -105,20 +106,24 @@ class RegisterUserForm(forms.ModelForm):
 
     class Meta:
         model = AdvUser
-        fields = ('username','email','password1','password2','first_name','last_name','seller','buyer')
+        fields = ('username', 'email', 'password1', 'password2', 'first_name', 'last_name', 'seller', 'buyer')
 
 
 class ChangeUserInfoForm(forms.ModelForm):
-    email = forms.EmailField(required=True,label='Адресс электронной почты')
+    email = forms.EmailField(required=True, label='Адресс электронной почты')
 
     class Meta:
         model = AdvUser
-        fields = ('username','email','first_name','last_name','seller','buyer')
+        fields = ('username', 'email', 'first_name', 'last_name', 'seller', 'buyer')
 
 
 class TipUserForm(forms.ModelForm):
 
+    def __init__(self, *args, **kwargs):
+        super(TipUserForm, self).__init__(*args, **kwargs)
+        self.fields['product_name'].widget.attrs['readonly'] = True
+
     class Meta:
         model = Tip
-        fields = ('product_name','value_tip','author')
-        widgets = {'author': forms.HiddenInput}
+        fields = ('product_name', 'value_tip', 'author')
+        widgets = {'author': forms.HiddenInput, 'product_name': forms.HiddenInput}

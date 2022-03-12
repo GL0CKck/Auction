@@ -28,11 +28,11 @@ class JWTAuthentication(authentication.BasicAuthentication):
         if prefix.lower() != auth_header_prefix:
             return None
 
-        return self._authentication_credentials(request,token)
+        return self._authentication_credentials(request, token)
 
-    def _authentication_credentials(self,request,token):
+    def _authentication_credentials(self, request, token):
         try:
-            payload = jwt.decode(token,settings.SECRET_KEY)
+            payload = jwt.decode(token, settings.SECRET_KEY)
         except:
             msg = 'Аутентификация не прошла.'
             raise exceptions.AuthenticationFailed(msg)
@@ -42,7 +42,6 @@ class JWTAuthentication(authentication.BasicAuthentication):
         except AdvUser.DoesNotExist:
             msg = 'Токен не найдено'
             raise exceptions.AuthenticationFailed(msg)
-
         return (user,token)
 
 

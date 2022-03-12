@@ -26,11 +26,11 @@ class SuperCategoryAdmin(admin.ModelAdmin):
 
 
 class AdvUserAdmin(admin.ModelAdmin):
-    list_display = ('__str__', 'is_activated', 'date_joined')
+    list_display = ('__str__', 'is_activated', 'date_joined', 'last_request', 'last_login')
     search_fields = ('username', 'email', 'first_name', 'last_name')
-    fields = (('username', 'email'), ('first_name', 'last_name'), ('is_activated','seller','buyer'),
-              ('is_staff', 'is_superuser'), 'groups', 'user_permissions', ('last_login', 'date_joined'))
-    readonly_fields = ('last_login', 'date_joined')
+    fields = (('username', 'email'), ('first_name', 'last_name'), ('is_activated', 'seller', 'buyer'),
+              ('is_staff', 'is_superuser'), 'groups', 'user_permissions', ('last_login', 'date_joined', 'last_request'))
+    readonly_fields = ('last_login', 'date_joined', 'last_request')
 
 
 class AdditionalImageInline(admin.TabularInline):

@@ -42,16 +42,17 @@ class UserManager(BaseUserManager):
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('Суперпользователь должен иметь is_superuser=True')
 
-        return self._create_user(username,email,password,**extra_fields)
+        return self._create_user(username, email, password, **extra_fields)
 
 
 class AdvUser(AbstractUser):
-    username = models.CharField(db_index=True, max_length=55,unique=True, verbose_name='Ник-нейм')
+    username = models.CharField(db_index=True, max_length=55, unique=True, verbose_name='Ник-нейм')
     email = models.EmailField(unique=True, db_index=True)
     is_staff = models.BooleanField(default=False)
     is_activated = models.BooleanField(default=True, db_index=True, verbose_name='Прошел активацию?')
     seller = models.BooleanField(default=True, verbose_name='Продавец')
     buyer = models.BooleanField(default=False, verbose_name='Покупатель')
+    last_request = models.DateTimeField(blank=True, null=True, verbose_name='Последний запрос')
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ('email',)
@@ -72,7 +73,7 @@ class AdvUser(AbstractUser):
 
     def _generate_jwt_token(self):
         dt = datetime.now() + timedelta(days=60)
-        token = jwt.encode ({
+        token = jwt.encode({
             'id': self.pk,
             'exp': int(dt.strftime('%S'))
 
@@ -80,7 +81,7 @@ class AdvUser(AbstractUser):
 
         return token.decode('utf-8')
 
-    def delete(self,*args,**kwargs):
+    def delete(self, *args, **kwargs):
         for pp in self.product_set.all():
             pp.delete()
         super().delete(*args, **kwargs)
@@ -90,8 +91,8 @@ class AdvUser(AbstractUser):
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=255,db_index=True, unique=True, verbose_name='Название')
-    order = models.SmallIntegerField(default=0,db_index=True,verbose_name='Сортировка')
+    name = models.CharField(max_length=255, db_index=True, unique=True, verbose_name='Название')
+    order = models.SmallIntegerField(default=0, db_index=True, verbose_name='Сортировка')
     super_category = models.ForeignKey('SuperCategory', on_delete=models.PROTECT, null=True, blank=True,
                                        verbose_name='Надрубрика')
 
@@ -142,17 +143,17 @@ class Product(models.Model):
     created = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name='Опубликованно')
     author = models.ForeignKey(AdvUser, on_delete=models.CASCADE, verbose_name='Продавец')
     price = models.FloatField(default=0, verbose_name='Цена')
-    image = models.ImageField(blank=True,upload_to=get_timestamp_path,verbose_name='Изображение')
+    image = models.ImageField(blank=True, upload_to=get_timestamp_path,verbose_name='Изображение')
     is_active = models.BooleanField(default=True, verbose_name='Выставить на продажу')
-    category = models.ForeignKey(SubCategory,on_delete=models.PROTECT, verbose_name='Категория')
-    super_product = models.ForeignKey('SuperProduct',on_delete=models.PROTECT,verbose_name='Продукт',
+    category = models.ForeignKey(SubCategory, on_delete=models.PROTECT, verbose_name='Категория')
+    super_product = models.ForeignKey('SuperProduct', on_delete=models.PROTECT, verbose_name='Продукт',
                                       null=True,blank=True)
     deadline = models.DateTimeField(verbose_name='Завершается прием ставок на продукт')
 
-    def delete(self,*args,**kwargs):
+    def delete(self, *args, **kwargs):
         for ai in self.additionalimage_set.all():
             ai.delete()
-        super().delete(*args,**kwargs)
+        super().delete(*args, **kwargs)
 
     def __str__(self):
         return self.name
@@ -164,8 +165,8 @@ class Product(models.Model):
 
 
 class AdditionalImage(models.Model):
-    pp = models.ForeignKey(Product,on_delete=models.CASCADE,verbose_name='Продукт')
-    image = models.ImageField(upload_to=get_timestamp_path,verbose_name='Изображения')
+    pp = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Продукт')
+    image = models.ImageField(upload_to=get_timestamp_path, verbose_name='Изображения')
 
     class Meta:
         verbose_name = 'Допольнительная иллюстрация'
@@ -185,7 +186,7 @@ class SuperProduct(Product):
 
     class Meta:
         proxy = True
-        ordering = ('name','created')
+        ordering = ('name', 'created')
         verbose_name = 'Название продукта'
         verbose_name_plural = 'Название продуктов'
 

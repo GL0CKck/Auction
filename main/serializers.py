@@ -61,7 +61,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AdvUser
-        fields = ('username','email','is_activated','seller','buyer')
+        fields = ('username', 'email', 'is_activated', 'seller', 'buyer')
 
 
 class ProductDetailSerializer(serializers.ModelSerializer):
@@ -77,7 +77,7 @@ class TipSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Tip
-        fields = ('product_name','value_tip','author')
+        fields = ('product_name', 'value_tip', 'author')
 
 
 
