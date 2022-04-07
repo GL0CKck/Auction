@@ -6,13 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('main', '0015_auto_20210807_1332'),
+        ("main", "0015_auto_20210807_1332"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='product',
-            name='deadline',
-            field=models.DateTimeField(verbose_name='Завершается прием ставок на продукт'),
+            model_name="product",
+            name="deadline",
+            field=models.DateTimeField(
+                verbose_name="Завершается прием ставок на продукт"
+            ),
         ),
     ]

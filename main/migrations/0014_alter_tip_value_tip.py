@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('main', '0013_remove_tip_id_tip'),
+        ("main", "0013_remove_tip_id_tip"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='tip',
-            name='value_tip',
-            field=models.IntegerField(default=0, verbose_name='Ваша ставка'),
+            model_name="tip",
+            name="value_tip",
+            field=models.IntegerField(default=0, verbose_name="Ваша ставка"),
         ),
     ]

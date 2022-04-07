@@ -8,47 +8,51 @@ import django.db.models.manager
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('main', '0003_auto_20210711_1206'),
+        ("main", "0003_auto_20210711_1206"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='SubProduct',
-            fields=[
-            ],
+            name="SubProduct",
+            fields=[],
             options={
-                'verbose_name': 'Товар',
-                'verbose_name_plural': 'Товары',
-                'ordering': ('super_product__name', 'name', 'price', 'created'),
-                'proxy': True,
-                'indexes': [],
-                'constraints': [],
+                "verbose_name": "Товар",
+                "verbose_name_plural": "Товары",
+                "ordering": ("super_product__name", "name", "price", "created"),
+                "proxy": True,
+                "indexes": [],
+                "constraints": [],
             },
-            bases=('main.product',),
+            bases=("main.product",),
             managers=[
-                ('object', django.db.models.manager.Manager()),
+                ("object", django.db.models.manager.Manager()),
             ],
         ),
         migrations.CreateModel(
-            name='SuperProduct',
-            fields=[
-            ],
+            name="SuperProduct",
+            fields=[],
             options={
-                'verbose_name': 'Название продукта',
-                'verbose_name_plural': 'Название продуктов',
-                'ordering': ('name', 'created'),
-                'proxy': True,
-                'indexes': [],
-                'constraints': [],
+                "verbose_name": "Название продукта",
+                "verbose_name_plural": "Название продуктов",
+                "ordering": ("name", "created"),
+                "proxy": True,
+                "indexes": [],
+                "constraints": [],
             },
-            bases=('main.product',),
+            bases=("main.product",),
             managers=[
-                ('object', django.db.models.manager.Manager()),
+                ("object", django.db.models.manager.Manager()),
             ],
         ),
         migrations.AddField(
-            model_name='product',
-            name='super_product',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='main.superproduct', verbose_name='Продукт'),
+            model_name="product",
+            name="super_product",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                to="main.superproduct",
+                verbose_name="Продукт",
+            ),
         ),
     ]

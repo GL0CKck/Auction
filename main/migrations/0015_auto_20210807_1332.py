@@ -6,18 +6,22 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('main', '0014_alter_tip_value_tip'),
+        ("main", "0014_alter_tip_value_tip"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='product',
-            name='deadline',
-            field=models.DateTimeField(blank=True, null=True, verbose_name='Завершается прием ставок на продукт'),
+            model_name="product",
+            name="deadline",
+            field=models.DateTimeField(
+                blank=True,
+                null=True,
+                verbose_name="Завершается прием ставок на продукт",
+            ),
         ),
         migrations.AlterField(
-            model_name='tip',
-            name='value_tip',
-            field=models.IntegerField(verbose_name='Ваша ставка'),
+            model_name="tip",
+            name="value_tip",
+            field=models.IntegerField(verbose_name="Ваша ставка"),
         ),
     ]

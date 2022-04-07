@@ -7,30 +7,53 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('main', '0002_auto_20210709_1314'),
+        ("main", "0002_auto_20210709_1314"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='product',
-            options={'ordering': ['-created'], 'verbose_name': 'Продукт', 'verbose_name_plural': 'Продукты'},
+            name="product",
+            options={
+                "ordering": ["-created"],
+                "verbose_name": "Продукт",
+                "verbose_name_plural": "Продукты",
+            },
         ),
         migrations.AlterModelOptions(
-            name='subcategory',
-            options={'ordering': ('super_category__order', 'super_category__name', 'order', 'name'), 'verbose_name': 'Под Категория', 'verbose_name_plural': 'Под Категории'},
+            name="subcategory",
+            options={
+                "ordering": (
+                    "super_category__order",
+                    "super_category__name",
+                    "order",
+                    "name",
+                ),
+                "verbose_name": "Под Категория",
+                "verbose_name_plural": "Под Категории",
+            },
         ),
         migrations.AlterModelOptions(
-            name='supercategory',
-            options={'ordering': ('order', 'name'), 'verbose_name': 'Категория', 'verbose_name_plural': 'Категории'},
+            name="supercategory",
+            options={
+                "ordering": ("order", "name"),
+                "verbose_name": "Категория",
+                "verbose_name_plural": "Категории",
+            },
         ),
         migrations.AlterField(
-            model_name='category',
-            name='order',
-            field=models.SmallIntegerField(db_index=True, default=0, verbose_name='Сортировка'),
+            model_name="category",
+            name="order",
+            field=models.SmallIntegerField(
+                db_index=True, default=0, verbose_name="Сортировка"
+            ),
         ),
         migrations.AlterField(
-            model_name='product',
-            name='category',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='main.subcategory', verbose_name='Категория'),
+            model_name="product",
+            name="category",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT,
+                to="main.subcategory",
+                verbose_name="Категория",
+            ),
         ),
     ]

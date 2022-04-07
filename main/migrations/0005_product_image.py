@@ -7,13 +7,17 @@ import main.utilities
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('main', '0004_auto_20210711_1643'),
+        ("main", "0004_auto_20210711_1643"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='product',
-            name='image',
-            field=models.ImageField(blank=True, upload_to=main.utilities.get_timestamp_path, verbose_name='Изображение'),
+            model_name="product",
+            name="image",
+            field=models.ImageField(
+                blank=True,
+                upload_to=main.utilities.get_timestamp_path,
+                verbose_name="Изображение",
+            ),
         ),
     ]

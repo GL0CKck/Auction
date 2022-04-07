@@ -6,8 +6,8 @@ from .models import SubCategory, SubProduct
 
 def category_context_processor(request):
     context = {}
-    context['categorys'] = SubCategory.object.all()
-    context['products'] = SubProduct.object.all()
+    context["categorys"] = SubCategory.object.all()
+    context["products"] = SubProduct.object.all()
     return context
 
 
@@ -21,4 +21,3 @@ class LastRequestMiddleware:
             request.user.save()
         response = self.get_response(request)
         return response
-

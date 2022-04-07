@@ -5,7 +5,7 @@ from .models import AdvUser
 
 
 class JWTAuthentication(authentication.BasicAuthentication):
-    authentication_header_prefix = 'Token'
+    authentication_header_prefix = "Token"
 
     def authenticate(self, request):
         request.user = None
@@ -22,8 +22,8 @@ class JWTAuthentication(authentication.BasicAuthentication):
         if len(auth_header) > 2:
             return None
 
-        prefix = auth_header[0].decode('utf-8')
-        token = auth_header[1].decode('utf-8')
+        prefix = auth_header[0].decode("utf-8")
+        token = auth_header[1].decode("utf-8")
 
         if prefix.lower() != auth_header_prefix:
             return None
@@ -34,16 +34,12 @@ class JWTAuthentication(authentication.BasicAuthentication):
         try:
             payload = jwt.decode(token, settings.SECRET_KEY)
         except:
-            msg = 'Аутентификация не прошла.'
+            msg = "Аутентификация не прошла."
             raise exceptions.AuthenticationFailed(msg)
 
         try:
-            user = AdvUser.objects.get(pk=payload['id'])
+            user = AdvUser.objects.get(pk=payload["id"])
         except AdvUser.DoesNotExist:
-            msg = 'Токен не найдено'
+            msg = "Токен не найдено"
             raise exceptions.AuthenticationFailed(msg)
-        return (user,token)
-
-
-
-
+        return (user, token)

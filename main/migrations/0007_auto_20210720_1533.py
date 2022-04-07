@@ -8,30 +8,32 @@ import django.db.models.manager
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('main', '0006_additionalimage'),
+        ("main", "0006_additionalimage"),
     ]
 
     operations = [
         migrations.AlterModelManagers(
-            name='advuser',
+            name="advuser",
             managers=[
-                ('object', django.db.models.manager.Manager()),
-                ('objects', django.contrib.auth.models.UserManager()),
+                ("object", django.db.models.manager.Manager()),
+                ("objects", django.contrib.auth.models.UserManager()),
             ],
         ),
         migrations.AlterField(
-            model_name='advuser',
-            name='email',
+            model_name="advuser",
+            name="email",
             field=models.EmailField(db_index=True, max_length=254, unique=True),
         ),
         migrations.AlterField(
-            model_name='advuser',
-            name='is_staff',
+            model_name="advuser",
+            name="is_staff",
             field=models.BooleanField(default=False),
         ),
         migrations.AlterField(
-            model_name='advuser',
-            name='username',
-            field=models.CharField(db_index=True, max_length=55, unique=True, verbose_name='Ник-нейм'),
+            model_name="advuser",
+            name="username",
+            field=models.CharField(
+                db_index=True, max_length=55, unique=True, verbose_name="Ник-нейм"
+            ),
         ),
     ]

@@ -8,25 +8,62 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('main', '0007_auto_20210720_1533'),
+        ("main", "0007_auto_20210720_1533"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Tip',
+            name="Tip",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('id_tip', models.IntegerField(db_index=True, unique=True, verbose_name='Id ставки')),
-                ('value_tip', models.IntegerField(verbose_name='Ваша ставка')),
-                ('time_tip', models.DateTimeField(auto_now_add=True, db_index=True, verbose_name='Время ставки')),
-                ('order', models.SmallIntegerField(db_index=True, default=0, verbose_name='Сортировка')),
-                ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='Покупатель')),
-                ('product_name', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='main.subproduct', verbose_name='Название продукта')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "id_tip",
+                    models.IntegerField(
+                        db_index=True, unique=True, verbose_name="Id ставки"
+                    ),
+                ),
+                ("value_tip", models.IntegerField(verbose_name="Ваша ставка")),
+                (
+                    "time_tip",
+                    models.DateTimeField(
+                        auto_now_add=True, db_index=True, verbose_name="Время ставки"
+                    ),
+                ),
+                (
+                    "order",
+                    models.SmallIntegerField(
+                        db_index=True, default=0, verbose_name="Сортировка"
+                    ),
+                ),
+                (
+                    "author",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="Покупатель",
+                    ),
+                ),
+                (
+                    "product_name",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="main.subproduct",
+                        verbose_name="Название продукта",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Ставка',
-                'verbose_name_plural': 'Ставки',
-                'ordering': ['-time_tip'],
+                "verbose_name": "Ставка",
+                "verbose_name_plural": "Ставки",
+                "ordering": ["-time_tip"],
             },
         ),
     ]
